@@ -12,7 +12,7 @@ Package.describe({
 
 Package.registerBuildPlugin({
   name: "polymor",
-  use: ['ecmascript', 'templating-tools'],
+  use: ['ecmascript'],
   sources: ['plugin/polymor.js'],
   npmDependencies: {'vulcanize': '1.14.0', 'temp': '0.8.3'}
 });
@@ -20,8 +20,9 @@ Package.registerBuildPlugin({
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
   api.use('ecmascript');
+  api.use('webapp');
   api.use('isobuild:compiler-plugin@1.0.0');
-  //api.addFiles('components/bower_components/webcomponentsjs/webcomponents.min.js', 'client');
+  api.imply(['tracker','mongo','session','ejson'],'client');
 
   api.addFiles([
     "components/meteor-call.html",
@@ -32,6 +33,8 @@ Package.onUse(function(api) {
     "components/meteor-subscribe.html",
     "components/meteor-user.html",
   ]);
+
+  api.addFiles(["handler.js"], 'server');
 });
 
 Package.onTest(function(api) {
